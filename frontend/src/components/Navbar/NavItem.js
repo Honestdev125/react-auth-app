@@ -5,7 +5,7 @@ const NavItem = ({ name, href }) => {
     <Link
       key={name}
       href={href}
-      className='text-custom hover:bg-gray-700 rounded-md px-2 md:px-3 py-3 text-sm font-medium'
+      className='text-custom hover:bg-gray-700 hover:text-white rounded-md px-2 md:px-3 py-3 text-sm font-medium'
     >
       {name}
     </Link>
