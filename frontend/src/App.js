@@ -1,13 +1,15 @@
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Landing from './pages/Landing';
 
 function App() {
   return (
-    <div className="App">
-      <button
-        className="btn btn-primary btn-lg mx-3 px-5 py-3 mt-2"
-      >
-        Add
-      </button>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
