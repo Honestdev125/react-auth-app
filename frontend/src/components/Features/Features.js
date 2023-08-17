@@ -17,7 +17,7 @@ const Features = () => {
           text="Sagittis vulputate ultrices magna."
         />
       </div>
-      <div className="block md:flex space-x-0 md:space-x-10 mx-3 md:mx-0">
+      <div className="block md:flex space-x-0 md:space-x-10 mx-5 md:mx-0">
         <FeatureBlog 
           img = {Icon1}
           title = "Smart Scheduling"

@@ -3,6 +3,7 @@ import Login from "../../components/Login/Login";
 import Individual from "../../components/Individual/Individual";
 import Enterprise from "../../components/Enterprise/Enterprise";
 import Features from "../../components/Features/Features";
+import AboutUs from "../../components/Aboutus/AboutUs";
 
 const Landing = () => {
   return (
@@ -17,6 +18,7 @@ const Landing = () => {
       </div>
       <div className="mx-auto w-full md:w-1440 px-2 md:px-40">
         <Features />
+        <AboutUs />
       </div>
     </div>
   )
