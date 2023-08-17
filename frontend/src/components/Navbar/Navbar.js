@@ -95,7 +95,7 @@ export default function Navbar() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    'text-black hover:bg-gray-700',
+                    'text-custom hover:bg-gray-700',
                     'block rounded-md py-2 text-base font-normal text-center'
                   )}
                 >
@@ -108,7 +108,7 @@ export default function Navbar() {
                   as="a"
                   href={'#'}
                   className={classNames(
-                    'text-black hover:bg-gray-700',
+                    'text-custom hover:bg-gray-700',
                     'inline rounded-md px-2 py-1 text-base font-bold border-black border-2 text-center'
                   )}
                 >
