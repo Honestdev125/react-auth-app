@@ -8,6 +8,9 @@ module.exports = {
             fontFamily: {
                 sans: ["Manrope", ...defaultTheme.fontFamily.sans],
             },
+            width: {
+                '1440': '1440px',
+            }
         },
     },
     variants: {
