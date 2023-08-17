@@ -68,7 +68,7 @@ export default function Navbar() {
                 href={'#'}
                 className={classNames(
                   'text-black hover:bg-gray-700',
-                  'block rounded-xl ms-1 me-3 md:ms-3 p-1 text-base font-bold border-black border-2 text-center'
+                  'block rounded-xl ms-1 me-3 md:ms-3 p-1 text-base font-bold border-black border-2 text-center hover:text-white'
                 )}
               >
                 Join Now!
@@ -95,8 +95,8 @@ export default function Navbar() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    'text-black hover:bg-gray-700',
-                    'block rounded-md py-2 text-base font-normal text-center'
+                    'text-custom hover:bg-gray-700',
+                    'block rounded-md py-2 text-base font-normal text-center hover:text-white'
                   )}
                 >
                   {item.name}
@@ -108,8 +108,8 @@ export default function Navbar() {
                   as="a"
                   href={'#'}
                   className={classNames(
-                    'text-black hover:bg-gray-700',
-                    'inline rounded-md px-2 py-1 text-base font-bold border-black border-2 text-center'
+                    'text-custom hover:bg-gray-700',
+                    'inline rounded-md px-2 py-1 text-base font-bold border-black border-2 text-center hover:text-white'
                   )}
                 >
                   Join Now!
