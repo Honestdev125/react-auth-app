@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar/Navbar";
 import Login from "../../components/Login/Login";
 import Individual from "../../components/Individual/Individual";
 import Enterprise from "../../components/Enterprise/Enterprise";
@@ -10,7 +9,6 @@ const Landing = () => {
   return (
     <div>
       <div className="mx-auto w-full md:w-1440 px-2 md:px-40">
-        <Navbar />
         <Login />
         <Individual />
       </div>

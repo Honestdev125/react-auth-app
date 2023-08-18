@@ -29,6 +29,9 @@ module.exports = {
         'blog': '#585858',
         'footer-p': '#9A9A9A',
       },
+      backgroundImage: {
+        'signin-img': 'url(https://img.freepik.com/free-vector/technology-background_23-2148119855.jpg?w=2000&t=st=1689179372~exp=1689179972~hmac=8a67af351443807b8728d4c2e1b067ba4a54be7b07c038cac30bdb71291062c1)' 
+      },
     },
   },
   variants: {
