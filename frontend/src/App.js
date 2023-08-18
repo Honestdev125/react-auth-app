@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+
+import store from "./redux/store";
 
 import Landing from "./pages/Landing";
 import Signin from "./pages/Auth/Signin";
@@ -7,18 +10,20 @@ import SignUp from "./pages/Auth/SignUp";
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <div className="mx-auto w-full md:w-1440 px-2 md:px-40">
-          <Navbar />
-        </div>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Provider store={store}>
+      <div>
+        <BrowserRouter>
+          <div className="mx-auto w-full md:w-1440 px-2 md:px-40">
+            <Navbar />
+          </div>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </Provider>
   );
 }
 

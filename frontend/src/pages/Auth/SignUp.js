@@ -1,14 +1,40 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+
+import { registerUser } from "../../redux/actions/authActions"
+import InputField from "../../components/Auth/InputField"
 
 const SignUp = () => {
 
   const [userType, setUserType] = useState(true)
-
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    email2: '',
+    password: '',
+    password2: '',
+  })
   const changeUserType = (e) => {
     if (e.target.id === "indi") setUserType(true)
     else setUserType(false)
   }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const dispatch = useDispatch()
+  const onSubmitIndi = () => {
+    dispatch(registerUser(formData))
+  }
+
+  const errors = useSelector(state => state.errors)
 
   return (
     <div className="w-full">
@@ -16,67 +42,112 @@ const SignUp = () => {
         <div className="w-[400px] rounded-3xl my-10 pb-20">
           <form className="mb-5 flex justify-around">
             <div>
-              <input className="me-1" type="radio" id="indi" name="fav_language" value="Individual" checked={userType} onChange={(e) => changeUserType(e)} />
+              <input className="me-1" type="radio" id="indi" name="Individual" checked={userType} onChange={(e) => changeUserType(e)} />
               <label>Individual</label>
             </div>
             <div>
-              <input className="me-1" type="radio" id="orgain" name="fav_language" value="Organization" onChange={(e) => changeUserType(e)} />
+              <input className="me-1" type="radio" id="orgain" name="Organization" onChange={(e) => changeUserType(e)} />
               <label>Organization</label>
             </div>
           </form>
           <div className="flex w-full flex-col rounded-t-3xl bg-white bg-opacity-20 shadow">
             {userType ?
-              <form className="space-y-8 px-10 text-center">
-                <div className="group relative">
-                  <input type="text" id="firstname" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">FirstName</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="lastname" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">LastName</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="gmail" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Gmail</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="confirm_gmail" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Confirm Gmail</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="password" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Password</label>
-                </div>
-                <button className="h-12 w-full rounded-3xl bg-blue-500 text-custom hover:text-white transition-all duration-300 hover:bg-blue-800">Register</button>
-              </form>
+              <div className="space-y-8 px-10 text-center">
+                <InputField
+                  id='firstname'
+                  name='firstName'
+                  type='text'
+                  labelname="FirstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  error = {errors.firstName}
+                />
+                <InputField
+                  id='lastname'
+                  name='lastName'
+                  type='text'
+                  labelname="LastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  error = {errors.lastName}
+                />
+                <InputField
+                  id='email'
+                  name='email'
+                  type='text'
+                  labelname="Email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  error = {errors.email}
+                />
+                <InputField
+                  id='email2'
+                  name='email2'
+                  type='text'
+                  labelname="Confirm Email"
+                  value={formData.email2}
+                  onChange={handleInputChange}
+                  error = {errors.email2}
+                />
+                <InputField
+                  id='password'
+                  name='password'
+                  type='password'
+                  labelname="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  error = {errors.password}
+                />
+                <InputField
+                  id='password2'
+                  name='password2'
+                  type='password'
+                  labelname="Confirm Password"
+                  value={formData.password2}
+                  onChange={handleInputChange}
+                  error = {errors.password2}
+                />
+                <button onClick={onSubmitIndi} className="h-12 w-full rounded-3xl bg-blue-500 text-custom hover:text-white transition-all duration-300 hover:bg-blue-800">Register</button>
+              </div>
               :
-              <form className="space-y-8 px-10 text-center">
-                <div className="group relative">
-                  <input type="text" id="organ_id" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Organization ID</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="organ_name" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Organization's Name</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="personal_name" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Personal Name</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="gmail" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Gmail</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="confirm_gmail" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Confirm Gmail</label>
-                </div>
-                <div className="group relative">
-                  <input type="text" id="password" required className="peer h-14 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none" />
-                  <label className="absolute left-2 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-custom peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-custom">Password</label>
-                </div>
+              <div className="space-y-8 px-10 text-center">
+                <InputField
+                  id='organ_id'
+                  type='text'
+                  labelname="Organization ID"
+                />
+                <InputField
+                  id='organ_name'
+                  type='text'
+                  labelname="Organization's Name"
+                />
+                <InputField
+                  id='personal_name'
+                  type='text'
+                  labelname="Personal Name"
+                />
+                <InputField
+                  id='email'
+                  type='text'
+                  labelname="Email"
+                />
+                <InputField
+                  id='email2'
+                  type='text'
+                  labelname="Confirm Email"
+                />
+                <InputField
+                  id='password'
+                  type='password'
+                  labelname="Password"
+                />
+                <InputField
+                  id='password2'
+                  type='password'
+                  labelname="Confirm Password"
+                />
                 <button className="h-12 w-full rounded-3xl bg-blue-500 text-custom hover:text-white transition-all duration-300 hover:bg-blue-800">Register</button>
-              </form>
+              </div>
             }
             <p className="gap-2 text-center text-custom">
               Already have an account?
