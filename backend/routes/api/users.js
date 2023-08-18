@@ -15,16 +15,17 @@ router.get("/test", (req, res) => res.json({ msg: "Users works!" }));
 
 
 router.post("/register", (req, res) => {
+  console.log(req.body)
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.json(errors);
   }
 
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       errors.email = "Email already exists";
-      return res.status(400).json(errors);
+      return res.json(errors);
     } else {
       const avatar = gravatar.url(req.body.email, {
         s: "200",
@@ -36,7 +37,6 @@ router.post("/register", (req, res) => {
         firstname: req.body.firstName,
         lastname: req.body.lastName,
         email: req.body.email,
-        avatar,
         password: req.body.password,
       });
 
@@ -60,7 +60,7 @@ router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.json(errors);
   }
 
   const email = req.body.email;
@@ -88,7 +88,7 @@ router.post("/login", (req, res) => {
         );
       } else {
         errors.password = "Password incorrect";
-        return res.status(400).json(errors);
+        return res.json(errors);
       }
     });
   });
