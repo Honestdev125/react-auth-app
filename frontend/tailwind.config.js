@@ -20,12 +20,14 @@ module.exports = {
         '52': '52px',
       },
       backgroundColor: {
-        'purple-custom': '#8748FF'
+        'purple-custom': '#8748FF',
+        'footer-custom': '#000025',
       },
       colors: {
         'custom': '#232323',
         'purple-custom': '#8748FF',
         'blog': '#585858',
+        'footer-p': '#9A9A9A',
       },
     },
   },
