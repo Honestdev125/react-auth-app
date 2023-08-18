@@ -8,7 +8,6 @@ const SignUp = () => {
   const changeUserType = (e) => {
     if (e.target.id === "indi") setUserType(true)
     else setUserType(false)
-    console.log(userType)
   }
 
   return (
