@@ -65,19 +65,13 @@ export default function Navbar() {
                   ))}
                 </div>
               </div>
-              <Disclosure.Button
-                key={"Join Now!"}
-                as="a"
-                href={'#'}
-                className={classNames(
-                  'text-black hover:bg-gray-700',
-                  'block rounded-xl ms-1 me-3 md:ms-3 p-1 text-base font-bold border-black border-2 text-center hover:text-white'
-                )}
+              <Link
+                to="#"
+                className='text-black hover:bg-gray-700 block rounded-xl ms-1 me-3 md:ms-3 p-1 text-base font-bold border-black border-2 text-center hover:text-white'
               >
                 Join Now!
-              </Disclosure.Button>
+              </Link>
               <div className="flex items-center sm:hidden">
-                {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-black">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>

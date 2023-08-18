@@ -24,7 +24,7 @@ const SignIn = () => {
 
             <p className="gap-2 text-center text-custom">
               Don't have an account?
-              <Link to="#" className="font-semibold text-blue-900 hover:text-blue-800">Sign up</Link>
+              <Link to="/signup" className="font-semibold text-blue-900 hover:text-blue-800">Sign up</Link>
             </p>
 
             <Link to="#" className="text-custom hover:text-white border-white-500 group m-auto mb-4 mt-5 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-blue-500 hover:bg-blue-500 focus:outline-none">
