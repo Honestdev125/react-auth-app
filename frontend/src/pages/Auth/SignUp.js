@@ -13,6 +13,8 @@ const SignUp = () => {
     lastName: '',
     email: '',
     email2: '',
+    phone: '',
+    phone2: '',
     password: '',
     password2: '',
   })
@@ -46,7 +48,7 @@ const SignUp = () => {
               <label>Individual</label>
             </div>
             <div>
-              <input className="me-1" type="radio" id="orgain" name="Organization" onChange={(e) => changeUserType(e)} />
+              <input className="me-1" type="radio" id="orgain" name="Organization" checked={!userType} onChange={(e) => changeUserType(e)} />
               <label>Organization</label>
             </div>
           </form>
@@ -88,6 +90,24 @@ const SignUp = () => {
                   value={formData.email2}
                   onChange={handleInputChange}
                   error = {errors.email2}
+                />
+                <InputField
+                  id='phone'
+                  name='phone'
+                  type='text'
+                  labelname="Phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  error = {errors.phone}
+                />
+                <InputField
+                  id='phone2'
+                  name='phone2'
+                  type='text'
+                  labelname="Confirm Phone"
+                  value={formData.phone2}
+                  onChange={handleInputChange}
+                  error = {errors.phone2}
                 />
                 <InputField
                   id='password'

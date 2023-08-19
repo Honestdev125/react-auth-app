@@ -8,6 +8,8 @@ module.exports = function validateRegisterInput(data) {
   data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
   data.email = !isEmpty(data.email) ? data.email : "";
   data.email2 = !isEmpty(data.email2) ? data.email2 : "";
+  data.phone = !isEmpty(data.phone) ? data.phone : "";
+  data.phone2 = !isEmpty(data.phone2) ? data.phone2 : "";
   data.password = !isEmpty(data.password) ? data.password : "";
   data.password2 = !isEmpty(data.password2) ? data.password2 : "";
 
@@ -41,6 +43,18 @@ module.exports = function validateRegisterInput(data) {
 
   if (!Validator.equals(data.email, data.email2)) {
     errors.email2 = "emails must match";
+  }
+
+  if (Validator.isEmpty(data.phone)) {
+    errors.phone = "phone field is required";
+  }
+
+  if (Validator.isEmpty(data.phone2)) {
+    errors.phone2 = "Confirm phone field is required";
+  }
+
+  if (!Validator.equals(data.phone, data.phone2)) {
+    errors.phone2 = "phon numbers must match";
   }
 
   if (Validator.isEmpty(data.password)) {
