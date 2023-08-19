@@ -15,17 +15,16 @@ router.get("/test", (req, res) => res.json({ msg: "Users works!" }));
 
 
 router.post("/register", (req, res) => {
-  console.log(req.body)
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
-    return res.json(errors);
+    return res.status(404).json(errors);
   }
 
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       errors.email = "Email already exists";
-      return res.json(errors);
+      return res.status(404).json(errors);
     } else {
       const avatar = gravatar.url(req.body.email, {
         s: "200",
@@ -37,6 +36,7 @@ router.post("/register", (req, res) => {
         firstname: req.body.firstName,
         lastname: req.body.lastName,
         email: req.body.email,
+        phone: req.body.phone,
         password: req.body.password,
       });
 
