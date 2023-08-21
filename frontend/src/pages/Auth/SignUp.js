@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
-import { registerUser } from "../../redux/actions/authActions"
+import { registerUser, organRegisterUser } from "../../redux/actions/authActions"
 import InputField from "../../components/Auth/InputField"
 
 const SignUp = () => {
@@ -17,6 +17,9 @@ const SignUp = () => {
     phone2: '',
     password: '',
     password2: '',
+    organId: '',
+    organName: '',
+    personalName: '',
   })
   const changeUserType = (e) => {
     if (e.target.id === "indi") setUserType(true)
@@ -36,13 +39,17 @@ const SignUp = () => {
     dispatch(registerUser(formData))
   }
 
+  const onSubmitOrgan = () => {
+    dispatch(organRegisterUser(formData))
+  }
+
   const errors = useSelector(state => state.errors)
 
   return (
     <div className="w-full">
       <div className="md:w-1440 mx-auto px-2 md:px-40  flex items-center justify-center">
         <div className="w-[400px] rounded-3xl my-10 pb-20">
-          <form className="mb-5 flex justify-around">
+          <div className="mb-8 flex justify-around">
             <div>
               <input className="me-1" type="radio" id="indi" name="Individual" checked={userType} onChange={(e) => changeUserType(e)} />
               <label>Individual</label>
@@ -51,7 +58,7 @@ const SignUp = () => {
               <input className="me-1" type="radio" id="orgain" name="Organization" checked={!userType} onChange={(e) => changeUserType(e)} />
               <label>Organization</label>
             </div>
-          </form>
+          </div>
           <div className="flex w-full flex-col rounded-t-3xl bg-white bg-opacity-20 shadow">
             {userType ?
               <div className="space-y-8 px-10 text-center">
@@ -132,45 +139,91 @@ const SignUp = () => {
               :
               <div className="space-y-8 px-10 text-center">
                 <InputField
-                  id='organ_id'
+                  id='organId'
+                  name='organId'
                   type='text'
                   labelname="Organization ID"
+                  value={formData.organId}
+                  onChange={handleInputChange}
+                  error = {errors.organId}
                 />
                 <InputField
-                  id='organ_name'
+                  id='organName'
+                  name='organName'
                   type='text'
                   labelname="Organization's Name"
+                  value={formData.organName}
+                  onChange={handleInputChange}
+                  error = {errors.organName}
                 />
                 <InputField
-                  id='personal_name'
+                  id='personalName'
+                  name='personalName'
                   type='text'
                   labelname="Personal Name"
+                  value={formData.personalName}
+                  onChange={handleInputChange}
+                  error = {errors.personalName}
                 />
                 <InputField
                   id='email'
+                  name='email'
                   type='text'
                   labelname="Email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  error = {errors.email}
                 />
                 <InputField
                   id='email2'
+                  name='email2'
                   type='text'
                   labelname="Confirm Email"
+                  value={formData.email2}
+                  onChange={handleInputChange}
+                  error = {errors.email2}
+                />
+                <InputField
+                  id='phone'
+                  name='phone'
+                  type='text'
+                  labelname="Phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  error = {errors.phone}
+                />
+                <InputField
+                  id='phone2'
+                  name='phone2'
+                  type='text'
+                  labelname="Confirm Phone"
+                  value={formData.phone2}
+                  onChange={handleInputChange}
+                  error = {errors.phone2}
                 />
                 <InputField
                   id='password'
+                  name='password'
                   type='password'
                   labelname="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  error = {errors.password}
                 />
                 <InputField
                   id='password2'
+                  name='password2'
                   type='password'
                   labelname="Confirm Password"
+                  value={formData.password2}
+                  onChange={handleInputChange}
+                  error = {errors.password2}
                 />
-                <button className="h-12 w-full rounded-3xl bg-blue-500 text-custom hover:text-white transition-all duration-300 hover:bg-blue-800">Register</button>
+                <button onClick={onSubmitOrgan} className="h-12 w-full rounded-3xl bg-blue-500 text-custom hover:text-white transition-all duration-300 hover:bg-blue-800">Register</button>
               </div>
             }
             <p className="gap-2 text-center text-custom">
-              Already have an account?
+              Already have an <span className="underline font-bold"> Account?</span>
               <Link to="/signin" className="font-semibold text-blue-900 hover:text-blue-800">Sign in</Link>
             </p>
 
