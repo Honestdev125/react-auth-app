@@ -1,6 +1,9 @@
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useSelector, useDispatch } from 'react-redux'
 
+import { logoutUser } from '../../redux/actions/authActions'
+import { useNavigate } from 'react-router-dom'
 import NavItem from './NavItem'
 import { Link } from 'react-router-dom'
 
@@ -11,11 +14,28 @@ const navigation = [
   { name: 'Sign in', href: '/signin' },
 ]
 
+const loginNavigation = [
+  { name: 'Search', href: '#' },
+  { name: 'Individual', href: '#' },
+  { name: 'Enterprise', href: '#' },
+]
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Navbar() {
+
+  const { isAuthenticated, user } = useSelector(state => state.auth)
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const logout = () => {
+    dispatch(logoutUser())
+    navigate("/signin")
+  }
+
   return (
     <Disclosure as="nav" className="bg-white w-full">
       {({ open }) => (
@@ -54,68 +74,131 @@ export default function Navbar() {
               </div>
             </div>
             <div className="flex items-center">
-              <div className="hidden sm:ml-6 sm:block">
-                <div className="flex space-x-0 md:space-x-4">
-                  {navigation.map((item) => (
+              {isAuthenticated ?
+                <div className='flex items-center'>
+                  <div className="hidden sm:ml-6 sm:block">
                     <NavItem
-                      key={item.name}
-                      href={item.href}
-                      name={item.name}
+                      key='Search'
+                      href='#'
+                      name='Search'
                     />
-                  ))}
+                    <NavItem
+                      key='Individual'
+                      href='#'
+                      name='Individual'
+                    />
+                    <NavItem
+                      key='Enterprise'
+                      href='#'
+                      name='Enterprise'
+                    />
+                    <Link
+                      onClick={(e) => logout(e)}
+                      className='text-custom hover:bg-gray-700 hover:text-white rounded-md px-2 md:px-3 py-3 text-sm font-medium'
+                    >
+                      Logout
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              <Link
-                to="#"
-                className='text-black hover:bg-gray-700 block rounded-xl ms-1 me-3 md:ms-3 p-1 text-base font-bold border-black border-2 text-center hover:text-white'
-              >
-                Join Now!
-              </Link>
-              <div className="flex items-center sm:hidden">
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-black">
-                  <span className="absolute -inset-0.5" />
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
+                :
+                <div className="hidden sm:ml-6 sm:block">
+                  <div className="flex space-x-0 md:space-x-4">
+                    {navigation.map((item) => (
+                      <NavItem
+                        key={item.name}
+                        href={item.href}
+                        name={item.name}
+                      />
+                    ))}
+                    <Link
+                      to="#"
+                      className='text-black hover:bg-gray-700 block rounded-xl ms-1 me-3 md:ms-3 p-1 text-base font-bold border-black border-2 text-center hover:text-white'
+                    >
+                      Join Now!
+                    </Link>
+                  </div>
+                </div>
+              }
+            </div>
+            <div className="flex items-center sm:hidden">
+              <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-black">
+                <span className="absolute -inset-0.5" />
+                <span className="sr-only">Open main menu</span>
+                {open ? (
+                  <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                )}
+              </Disclosure.Button>
             </div>
           </div>
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-6">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    'text-custom hover:bg-gray-700',
-                    'block rounded-md py-2 text-base font-normal text-center hover:text-white'
-                  )}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-              <div className='text-center'>
-                <Disclosure.Button
-                  key={"Join Now!"}
-                  as="a"
-                  href={'#'}
-                  className={classNames(
-                    'text-custom hover:bg-gray-700',
-                    'inline rounded-md px-2 py-1 text-base font-bold border-black border-2 text-center hover:text-white'
-                  )}
-                >
-                  Join Now!
-                </Disclosure.Button>
+          {user.firstName && <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+            <p className="font-bold">User</p>
+            <p className="text-sm">{user.firstName + " " + user.lastName}</p>
+          </div>}
+          {isAuthenticated === false ?
+            <Disclosure.Panel className="sm:hidden">
+              <div className="space-y-1 px-2 pb-3 pt-6">
+                {navigation.map((item) => (
+                  <Disclosure.Button
+                    key={item.name}
+                    as="a"
+                    href={item.href}
+                    className={classNames(
+                      'text-custom hover:bg-gray-700',
+                      'block rounded-md py-2 text-base font-normal text-center hover:text-white'
+                    )}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                ))}
+                <div className='text-center'>
+                  <Disclosure.Button
+                    key={"Join Now!"}
+                    as="a"
+                    href={'#'}
+                    className={classNames(
+                      'text-custom hover:bg-gray-700',
+                      'inline items-center rounded-md px-2  text-base font-bold border-black border-2 text-center hover:text-white'
+                    )}
+                  >
+                    Join Now!
+                  </Disclosure.Button>
+                </div>
               </div>
-            </div>
-          </Disclosure.Panel>
+            </Disclosure.Panel> :
+            <Disclosure.Panel className="sm:hidden">
+              <div className="space-y-1 px-2 pb-3 pt-6">
+                {loginNavigation.map((item) => (
+                  <Disclosure.Button
+                    key={item.name}
+                    as="a"
+                    href={item.href}
+                    className={classNames(
+                      'text-custom hover:bg-gray-700',
+                      'block rounded-md py-2 text-base font-normal text-center hover:text-white'
+                    )}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                ))}
+                <div className='flex justify-center items-center'>
+                  <Disclosure.Button
+                    onClick={(e) => logout(e)}
+                    className={classNames(
+                      'text-custom hover:bg-gray-700',
+                      'block rounded-md py-2 text-base font-normal text-center hover:text-white'
+                    )}
+                  >
+                    Logout
+                  </Disclosure.Button>
+                </div>
+              </div>
+            </Disclosure.Panel>
+          }
         </>
-      )}
-    </Disclosure>
+      )
+      }
+    </Disclosure >
   )
 }

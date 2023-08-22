@@ -60,21 +60,21 @@ router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    return res.json(errors);
+    return res.status(404).json(errors);
   }
 
-  const email = req.body.email;
-  const password = req.body.password;
+  const email = req.body.signEmail;
+  const password = req.body.signPassword;
 
   User.findOne({ email }).then(user => {
     if (!user) {
-      errors.email = "User email not found";
+      errors.signEmail = "User email not found";
       return res.status(404).json(errors);
     }
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        const payload = { id: user.id, name: user.name, avatar: user.avatar };
+        const payload = { id: user.id, firstName: user.firstname, lastName: user.lastname, avatar: user.avatar };
 
         jwt.sign(
           payload,
@@ -87,7 +87,7 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        errors.password = "Password incorrect";
+        errors.signPassword = "Password incorrect";
         return res.json(errors);
       }
     });

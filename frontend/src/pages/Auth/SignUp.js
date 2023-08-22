@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 import { registerUser, organRegisterUser } from "../../redux/actions/authActions"
@@ -35,12 +35,13 @@ const SignUp = () => {
   };
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const onSubmitIndi = () => {
-    dispatch(registerUser(formData))
+    dispatch(registerUser(formData, navigate))
   }
 
   const onSubmitOrgan = () => {
-    dispatch(organRegisterUser(formData))
+    dispatch(organRegisterUser(formData, navigate))
   }
 
   const errors = useSelector(state => state.errors)
