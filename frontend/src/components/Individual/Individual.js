@@ -1,8 +1,26 @@
+import { useSelector, useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+
+import { join } from "../../redux/actions/authActions"
 import Section2 from "../../assets/LandingPage/Section-2/Section-2-Image.png"
 import IndiText from "./IndiText"
 import LoginTextP from "../Login/LoginTextP"
 import JoinBtn from "./JoinBtn"
 const Individual = () => {
+  const isAuth = useSelector((state) => state.auth.isAuthenticated)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const joinNow = () => {
+    if (isAuth) {
+      navigate('/joinnow')
+    }
+    else {
+      const errors = { join: 'Please login'}
+      navigate('/signin')
+      dispatch(join(errors))
+    }
+  }
   return (
     <div className="block md:flex pt-[60px] pb-[80px]">
       <div className="me-0 md:me-[30px] w-full md:w-1/2 ">
@@ -25,6 +43,7 @@ const Individual = () => {
         <div>
           <JoinBtn
             name="Join Now!"
+            click={joinNow}
           />
         </div>
       </div>

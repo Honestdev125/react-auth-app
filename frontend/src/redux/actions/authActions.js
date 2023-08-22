@@ -74,4 +74,10 @@ export const logoutUser = () => dispatch => {
   dispatch(setCurrentUser({}));
 };
 
+export const join = (joinnow) => dispatch => {
+  dispatch({
+    type: GET_ERRORS,
+    payload: joinnow
+  })
+}
 

@@ -1,11 +1,12 @@
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { logoutUser } from '../../redux/actions/authActions'
-import { useNavigate } from 'react-router-dom'
 import NavItem from './NavItem'
-import { Link } from 'react-router-dom'
+import { join } from '../../redux/actions/authActions'
 
 const navigation = [
   { name: 'Search', href: '#' },
@@ -25,11 +26,22 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-
-  const { isAuthenticated, user } = useSelector(state => state.auth)
-
-  const dispatch = useDispatch()
+  
+  const isAuth = useSelector((state) => state.auth.isAuthenticated)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const joinNow = () => {
+    if (isAuth) {
+      navigate('/joinnow')
+    }
+    else {
+      const errors = { join: 'Please login'}
+      navigate('/signin')
+      dispatch(join(errors))
+    }
+  }
+  const { isAuthenticated, user } = useSelector(state => state.auth)
 
   const logout = () => {
     dispatch(logoutUser())
@@ -111,7 +123,7 @@ export default function Navbar() {
                       />
                     ))}
                     <Link
-                      to="#"
+                      onClick={joinNow}
                       className='text-black hover:bg-gray-700 block rounded-xl ms-1 me-3 md:ms-3 p-1 text-base font-bold border-black border-2 text-center hover:text-white'
                     >
                       Join Now!
@@ -156,7 +168,7 @@ export default function Navbar() {
                   <Disclosure.Button
                     key={"Join Now!"}
                     as="a"
-                    href={'#'}
+                    onClick={joinNow}
                     className={classNames(
                       'text-custom hover:bg-gray-700',
                       'inline items-center rounded-md px-2  text-base font-bold border-black border-2 text-center hover:text-white'

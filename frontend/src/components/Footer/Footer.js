@@ -1,9 +1,26 @@
 import { Link } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
+import { join } from "../../redux/actions/authActions"
 import IndiText from "../Individual/IndiText"
 import JoinBtn from "../Individual/JoinBtn"
 
 const Footer = () => {
+  const isAuth = useSelector((state) => state.auth.isAuthenticated)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const joinNow = () => {
+    if (isAuth) {
+      navigate('/joinnow')
+    }
+    else {
+      const errors = { join: 'Please login' }
+      navigate('/signin')
+      dispatch(join(errors))
+    }
+  }
   return (
     <div className="pt-[80px] pb-[40px] bg-footer-custom px-[20px] md:px-[80px]">
       <div className="text-center">
@@ -19,7 +36,10 @@ const Footer = () => {
           </p>
         </div>
         <div className="my-[30px] w-full md:w-1/2 mx-auto">
-          <JoinBtn name="Join Now!" />
+          <JoinBtn
+            name="Join Now!"
+            click={joinNow}
+          />
         </div>
       </div>
       <div className="h-px bg-white mb-[30px]"></div>

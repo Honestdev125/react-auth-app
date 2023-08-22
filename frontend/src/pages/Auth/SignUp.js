@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
@@ -6,7 +6,12 @@ import { registerUser, organRegisterUser } from "../../redux/actions/authActions
 import InputField from "../../components/Auth/InputField"
 
 const SignUp = () => {
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const navigate = useNavigate()
 
+  useEffect(() => {
+    if (isAuth) navigate('/')
+  })
   const [userType, setUserType] = useState(true)
   const [formData, setFormData] = useState({
     firstName: '',
@@ -35,7 +40,6 @@ const SignUp = () => {
   };
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const onSubmitIndi = () => {
     dispatch(registerUser(formData, navigate))
   }
