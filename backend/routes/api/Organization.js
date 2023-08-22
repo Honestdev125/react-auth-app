@@ -6,23 +6,22 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 
-const validateRegisterInput = require("../../validation/register");
+const validateOrganRegisterInput = require("../../validation/organRegister");
 const validateLoginInput = require("../../validation/login");
 
-const User = require("../../models/Users");
+const Organ = require("../../models/Organization");
 
-router.get("/test", (req, res) => res.json({ msg: "Users works!" }));
-
+router.get("/test", (req, res) => res.json({ msg: "Organization works!" }));
 
 router.post("/register", (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
+  const { errors, isValid } = validateOrganRegisterInput(req.body);
 
   if (!isValid) {
     return res.status(404).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then((user) => {
-    if (user) {
+  Organ.findOne({ email: req.body.email }).then((organ) => {
+    if (organ) {
       errors.email = "Email already exists";
       return res.status(404).json(errors);
     } else {
@@ -32,22 +31,23 @@ router.post("/register", (req, res) => {
         d: "mm",
       });
 
-      const newUser = new User({
-        firstname: req.body.firstName,
-        lastname: req.body.lastName,
+      const newOrgan = new Organ({
+        organId: req.body.organId,
+        organName: req.body.organName,
+        personalName: req.body.personalName,
         email: req.body.email,
         phone: req.body.phone,
         password: req.body.password,
       });
 
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
+        bcrypt.hash(newOrgan.password, salt, (err, hash) => {
           if (err) throw err;
-          newUser.password = hash;
+          newOrgan.password = hash;
 
-          newUser
+          newOrgan
             .save()
-            .then((user) => res.json(user))
+            .then((organ) => res.json(organ))
             .catch((err) => console.log(err));
         });
       });
@@ -60,21 +60,21 @@ router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    return res.status(404).json(errors);
+    return res.json(errors);
   }
 
-  const email = req.body.signEmail;
-  const password = req.body.signPassword;
+  const email = req.body.email;
+  const password = req.body.password;
 
   User.findOne({ email }).then(user => {
     if (!user) {
-      errors.signEmail = "User email not found";
+      errors.email = "User email not found";
       return res.status(404).json(errors);
     }
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        const payload = { id: user.id, firstName: user.firstname, lastName: user.lastname, avatar: user.avatar };
+        const payload = { id: user.id, name: user.name, avatar: user.avatar };
 
         jwt.sign(
           payload,
@@ -87,7 +87,7 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        errors.signPassword = "Password incorrect";
+        errors.password = "Password incorrect";
         return res.json(errors);
       }
     });
