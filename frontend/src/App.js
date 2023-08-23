@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar/Navbar";
 import SignUp from "./pages/Auth/SignUp";
 import setAuthToken from "./utils/setAuthToken";
 import JoinNow from "./pages/JoinNow";
+// import ProtectedRoute from "./components/Route/ProtectedRoute";
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken
@@ -37,6 +38,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/joinnow" element={<JoinNow />} />
           </Routes>
         </BrowserRouter>
       </div>

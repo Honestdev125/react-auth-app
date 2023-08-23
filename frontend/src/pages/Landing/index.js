@@ -6,6 +6,7 @@ import AboutUs from "../../components/Aboutus/AboutUs";
 import Footer from "../../components/Footer/Footer";
 
 const Landing = () => {
+  
   return (
     <div>
       <div className="mx-auto w-full md:w-1440 px-2 md:px-40">
