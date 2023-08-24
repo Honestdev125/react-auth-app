@@ -10,6 +10,7 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
 const User = require("../../models/Users");
+const GoogleUser = require("../../models/googleUser");
 
 router.get("/test", (req, res) => res.json({ msg: "Users works!" }));
 
@@ -51,6 +52,68 @@ router.post("/register", (req, res) => {
             .catch((err) => console.log(err));
         });
       });
+    }
+  });
+});
+
+
+router.post("/google/register", (req, res) => {
+  const newGoogleUser = new GoogleUser({
+    firstname: req.body.firstName,
+    lastname: req.body.lastName,
+    email: req.body.email,
+  });
+
+  GoogleUser.findOne({ email: req.body.email }).then((user) => {
+    if (user) {
+      const payload = {
+        id: user.id,
+        firstName: user.firstname,
+        lastName: user.lastname,
+        email: user.email
+      };
+
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        { expiresIn: 3600 },
+        (err, token) => {
+          res.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        }
+      );
+    } else {
+      const avatar = gravatar.url(req.body.email, {
+        s: "200",
+        r: "pg",
+        d: "mm",
+      });
+
+      newGoogleUser
+        .save()
+        .then((user) => {
+          const payload = {
+            id: user.id,
+            firstName: user.firstname,
+            lastName: user.lastname,
+            email: user.email
+          };
+
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Bearer " + token
+              });
+            }
+          );
+        })
+        .catch((err) => console.log(err));
     }
   });
 });

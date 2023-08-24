@@ -81,3 +81,14 @@ export const join = (joinnow) => dispatch => {
   })
 }
 
+export const googleRegisterUser = userData => dispatch => {
+  axios
+    .post(`${BASE_URL}/api/users/google/register`, userData)
+    .then(res => {
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+      setAuthToken(token);
+      const decoded = jwt_decode(token);
+      dispatch(setCurrentUser(decoded));
+    })
+};

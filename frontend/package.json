@@ -6,11 +6,13 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
+    "@react-oauth/google": "^0.11.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
+    "jsonwebtoken": "^9.0.1",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -47,5 +49,5 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.3"
-  }  
+  }
 }

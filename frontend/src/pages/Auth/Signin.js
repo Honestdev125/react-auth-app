@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 import { loginUser } from "../../redux/actions/authActions"
+import FacebookLogin from "./facebookLogin"
+import GoogleLogin from "./googleLogin"
 const SignIn = () => {
   const success = useSelector(state => state.auth.success)
   const errors = useSelector(state => state.errors)
@@ -77,17 +79,12 @@ const SignIn = () => {
             </p>
 
             <Link to="#" className="text-custom hover:text-white border-white-500 group m-auto mb-4 mt-5 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-blue-500 hover:bg-blue-500 focus:outline-none">
-              <span>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/706px-Google_%22G%22_Logo.svg.png" alt="google" className=" w-6 h-6" />
-              </span>
-              <span className="text-sm font-medium">Google</span>
+              <GoogleLogin />
+             
             </Link>
 
             <Link to="#" className="text-custom hover:text-white border-white-500 group m-auto my-0 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-black hover:bg-blue-500 focus:outline-none">
-              <span>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png" alt="facebook" className=" w-6 h-6" />
-              </span>
-              <span className="text-sm font-medium ">FaceBook</span>
+              <FacebookLogin />
             </Link>
           </div>
         </div>
